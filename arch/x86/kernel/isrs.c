@@ -913,7 +913,19 @@ void syscall_handler(struct state *s)
 			s->rax = sys_getrandom((void *)s->rdi, s->rsi, s->rdx);
 			break;
 #endif
+#ifndef DISABLE_SYS_TRUNCATE
+		case 309:
+			/* truncate */
+			s->rax = sys_truncate((const char*)s->rdi, s->rsi);
+			break;
+#endif
 
+#ifndef DISABLE_SYS_FTRUNCATE
+		case 307:
+			/* ftruncate */
+			s->rax = sys_truncate(s->rdi, s->rsi);
+			break;
+#endif
 #ifndef DISABLE_SYS_RSEQ
 		case 334:
 			/* rseq */
